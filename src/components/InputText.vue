@@ -43,13 +43,15 @@ export default defineComponent({
     setup(props:Props) {
         // ここにリアクティブなデータ、関数を定義
         const test = ref({
-            value:"お試しサンプル"
+            value:"compositionAPIのテスト"
         });
         const input = reactive({
             text:"",
         });
         const output = reactive({
-            text:"",
+            text:computed(()=>{
+                return convert(input.text)
+            })
         });
         const setting = ref({
             tarows:20,
