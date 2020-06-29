@@ -1,20 +1,33 @@
 <template>
     <div>
-        <h2>{{ test.value }}</h2>
+        <h2
+        v-text="test.value"
+        />
         <p>{{ messageTwo }}</p>
-        <form>
-            <textarea
-            v-model="text.input"
-            cols="100"
-            rows="20"
-            />
-        </form>
+        <div>
+            <form>
+                <textarea
+                v-model="input.text"
+                :cols="setting.tacols"
+                :rows="setting.tarows"
+                />
+            </form>
+            <form>
+                <textarea
+                v-model="output.text"
+                :cols="setting.tacols"
+                :rows="setting.tarows"
+                readonly
+                />
+            </form>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { defineComponent, reactive, ref, computed } from "@vue/composition-api";
+import { convert } from './convert'
 
 type Props = {
     t1: string;
@@ -32,18 +45,22 @@ export default defineComponent({
         const test = ref({
             value:"お試しサンプル"
         });
-        const text = reactive({
-            input:"",
-            output:computed(()=>{
-                // あとから色々追加する
-                // モジュール分割とか？
-                return ""
-            })
-        })
+        const input = reactive({
+            text:"",
+        });
+        const output = reactive({
+            text:"",
+        });
+        const setting = ref({
+            tarows:20,
+            tacols:100
+        });
         const messageTwo = ref<string>(props.t1);
-        return{
+        return {
             test,
-            text,
+            input,
+            output,
+            setting,
             messageTwo
         }
     }
