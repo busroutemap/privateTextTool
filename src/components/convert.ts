@@ -1,19 +1,59 @@
 
 /**
- * @summary 入力文字列を改行コードでばらす
+ * @summary 半角スペース4つをTABに変換する。
+ * @param longText textarea内の長文
+ * @returns 新しいテキスト
+ * @description 最初に出てきたスペースのみ置換する
+ */
+const space2Tab = (longText: string) => {
+    const oldlines = nSplit(longText);
+    const newlines = oldlines.map(line => {
+        const spans = spaceSplit(line);
+        const newline = tConcat(spans);
+        return newline;
+    });
+    const newLongText = nConcat(newlines);
+    return newLongText;
+};
+
+/**
+ * 
+ * @param lineText 1行
+ * @returns 分割された行の断片配列
+ */
+const spaceSplit = (lineText: string) => {
+    return lineText.split("    ");
+};
+
+/**
+ * 
+ * @param spans 
+ * @returns 結合された行文字列
+ */
+const tConcat = (spans: string[]) => {
+    let longText = "";
+    spans.forEach(span => {
+        longText += span + "\t";
+    });
+    return longText;
+};
+
+
+/**
+ * @summary 共通処理、入力文字列を改行コードでばらす
  * @param longText 長い文字列
  * @returns 1行ごとに分かれた文字列
  */
-const nsplit = (longText: string) => {
+const nSplit = (longText: string) => {
     return longText.split("\n");
 };
 
 /**
- * @summary 入力文字列配列を改行コードで連結する
+ * @summary 共通処理、入力文字列配列を改行コードで連結する
  * @param lines 1行ごとの文字列配列
  * @returns 1行にまとめられた文字列
  */
-const concatLines = (lines: string[]) => {
+const nConcat = (lines: string[]) => {
     let longText = "";
     lines.forEach(line => {
         longText += line + "\n";
@@ -29,11 +69,7 @@ const concatLines = (lines: string[]) => {
  * @returns 置換後のテキスト
  */
 const convert = (longText: string) => {
-    const lines = nsplit(longText);
-    const newLines = lines.map(line => {
-        return line.replace("    ", "\t");
-    });
-    const newText = concatLines(newLines);
+    const newText = space2Tab(longText);
     return newText;
 };
 
