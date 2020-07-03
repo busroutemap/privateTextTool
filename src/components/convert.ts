@@ -41,15 +41,12 @@ const spaceSplit = (lineText: string) => {
 };
 
 /**
- * 
- * @param spans 
+ * @summary 文字列配列の全要素をタブで結合する
+ * @param spans 文字列配列
  * @returns 結合された行文字列
  */
 const tConcat = (spans: string[]) => {
-    let longText = "";
-    spans.forEach(span => {
-        longText += span + "\t";
-    });
+    const longText = spans.join('\t');
     return longText;
 };
 
