@@ -1,5 +1,20 @@
 
 /**
+ * @summary "- " を "・\t"に置換する
+ * @param longText textarea内の文字列
+ * @returns 新しいテキスト
+ */
+const hyphen2Circle = (longText: string) => {
+    const oldlines = nSplit(longText);
+    const newlines = oldlines.map(line => {
+        return line.replace("- ", "・\t");
+    });
+    const newLongText = nConcat(newlines);
+    return newLongText;
+}
+
+
+/**
  * @summary 半角スペース4つをTABに変換する。
  * @param longText textarea内の長文
  * @returns 新しいテキスト
@@ -69,7 +84,9 @@ const nConcat = (lines: string[]) => {
  * @returns 置換後のテキスト
  */
 const convert = (longText: string) => {
-    const newText = space2Tab(longText);
+    const rule1Text = space2Tab(longText);
+    const rule2Text = hyphen2Circle(rule1Text);
+    const newText = rule2Text;
     return newText;
 };
 
