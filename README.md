@@ -48,15 +48,6 @@ TEXT H1
     - つまり、最も深い箇所は5段階インデント
 - インデント段階に応じて記号を変更する
 
-# 案
-- 正規表現で十分？かもしれないけど一応
-    - 数値リストアップの修正などがあるので、正規表現だと厳しい？
-    - 参考 : javascriptでの正規表現
-        - [https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions](https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions)
-- シンプルなhtml+js？
-- おなじみのVue？
-- Reactチャレンジ？
-
 # 期限
 - 6月中にちまちま作る。
     - 多少遅くてもOK

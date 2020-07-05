@@ -1,4 +1,57 @@
 
+// /**
+//  * h1,h2,h3に該当する`#`を削除する(未完成)
+//  * @param longText textarea内の文字列
+//  * @return 新しいテキスト
+//  */
+// const sharpFormat = (longText: string) => {
+//     const oldlines = nSplit(longText);
+//     // 1行ごとに確認
+//     // もし###がある→該当行とそれ以降はh3グループ(tab2)
+//     // もし##がある→該当行とそれ以降はh2グループ(tab1)
+//     // もし#がある→該当行とそれ以降はh1グループ(tab0)
+//     // #が無い→前行の状態を継続
+//     let headerNumber = 0;
+//     const linesh3repalced = oldlines.map(line => {
+//         let l = line;
+//         if (line.indexOf("### ") > 0) {
+//             // h3グループ
+//             headerNumber = 2;
+//             l = l.replace("### ", "");
+//         } else if (line.indexOf("##") > 0) {
+//             // h2グループ
+//             headerNumber = 1;
+//             l = l.replace("## ", "");
+//         } else if (line.indexOf("#") > 0) {
+//             // h1グループ
+//             headerNumber = 0;
+//             l = l.replace("# ", "");
+//         } else {
+//             // 前行の状態を継続
+//             // headerNumberは変更しない
+//         }
+//         return l;
+//     });
+//     const linesh2replaced = linesh3repalced.map(line => {
+//         return line.replace("## ", "");
+//     });
+//     const linesh1replaced = linesh2replaced.map(line => {
+//         return line.replace("# ", "");
+//     })
+//     const newLongText = nConcat(linesh1replaced);
+//     return newLongText;
+// }
+
+// const tag2maru = (longText: string) => {
+//     const oldlines = nSplit(longText);
+//     const newlines:string[] = [];
+//     // oldlines.forEach(line => {
+//     //     const  line.replace("[\(\*\)]", "●\$1●");
+//     // });
+//     const newLongText = nConcat(newlines);
+//     return newlines
+// }
+
 /**
  * @summary "- " を "・\t"に置換する
  * @param longText textarea内の文字列
