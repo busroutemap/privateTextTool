@@ -38,15 +38,20 @@ const sharpFormat = (longText: string) => {
     return newLongText;
 }
 
-// const tag2maru = (longText: string) => {
-//     const oldlines = nSplit(longText);
-//     const newlines:string[] = [];
-//     // oldlines.forEach(line => {
-//     //     const  line.replace("[\(\*\)]", "●\$1●");
-//     // });
-//     const newLongText = nConcat(newlines);
-//     return newlines
-// }
+/**
+ * []を●●に変更する
+ * @param longText
+ * @return 新しいテキスト
+ */
+const tag2maru = (longText: string) => {
+    const oldlines = nSplit(longText);
+    const newlines = oldlines.map(line => {
+        const replaced = line.replace(new RegExp(/\[(.*)\]/), "●$1●\n");
+        return replaced;
+    });
+    const newLongText = nConcat(newlines);
+    return newLongText
+}
 
 /**
  * @summary "- " を "・\t"に置換する
@@ -132,8 +137,9 @@ const nConcat = (lines: string[]) => {
 const convert = (longText: string) => {
     const rule1Text = space2Tab(longText);
     const rule2Text = hyphen2Circle(rule1Text);
-    const rule3Text = sharpFormat(rule2Text);
-    const newText = rule3Text;
+    const rule3Text = tag2maru(rule2Text);
+    const rule4Text = sharpFormat(rule3Text);
+    const newText = rule4Text;
     return newText;
 };
 
