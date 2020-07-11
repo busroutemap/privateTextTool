@@ -64,7 +64,7 @@ export default defineComponent({
     setup(props:Props) {
         // ここにリアクティブなデータ、関数を定義
         const test = ref({
-            value:"compositionAPIのテスト",
+            value:"Markdown記法👉私的記法",
             before:"置換前",
             after:"置換後(読み取り専用)"
         });

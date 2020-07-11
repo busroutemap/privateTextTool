@@ -3,7 +3,7 @@
     <img alt="Vue logo" src="./assets/logo.png">
     <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
     <InputText
-    t1="文字を入力してみましょう"
+    t1="私的置換ツールです。左側にMarkdown文書を入力してみましょう。"
     />
   </div>
 </template>
