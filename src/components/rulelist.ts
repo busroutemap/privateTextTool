@@ -4,6 +4,7 @@
  * @description ルール管理クラスが格納するルールの持つ内容
  */
 interface Rule {
+    // primaryは小さいほど先に実行される
     primary: number;
     func: Function;
 }
