@@ -1,4 +1,4 @@
-import { Rulelist } from '@/components/_Rulelist'
+import { Rulelist } from '@/components/Rulelist'
 import { expect } from 'chai'
 
 const fn01 = (a: string) => { return a + a };
