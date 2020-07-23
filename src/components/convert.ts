@@ -1,6 +1,6 @@
 
 // ルール管理クラスのインポート
-import { Rulelist } from './Rulelist'
+import { Rulelist } from './_Rulelist'
 
 /**
  * h1,h2,h3に該当する`#`を削除し、それに見合うTabを補正する
