@@ -120,10 +120,7 @@ const nSplit = (longText: string) => {
  * @returns 1行にまとめられた文字列
  */
 const nConcat = (lines: string[]) => {
-    let longText = "";
-    lines.forEach(line => {
-        longText += line + "\n";
-    });
+    let longText = lines.join("\n");
     return longText;
 };
 
