@@ -1,4 +1,5 @@
 
+import { Rulelist } from './rulelist'
 /**
  * h1,h2,h3に該当する`#`を削除し、それに見合うTabを補正する
  * @param longText textarea内の文字列
@@ -132,12 +133,25 @@ const nConcat = (lines: string[]) => {
  * @returns 置換後のテキスト
  */
 const convert = (longText: string) => {
-    const rule1Text = space2Tab(longText);
-    const rule2Text = hyphen2Circle(rule1Text);
-    const rule3Text = tag2maru(rule2Text);
-    const rule4Text = sharpFormat(rule3Text);
-    const newText = rule4Text;
-    return newText;
+    const rl = new Rulelist;
+    rl.setRule({
+        primary: 5,
+        func: space2Tab
+    });
+    rl.setRule({
+        primary: 10,
+        func: hyphen2Circle
+    });
+    rl.setRule({
+        primary: 10,
+        func: tag2maru
+    });
+    rl.setRule({
+        primary: 20,
+        func: sharpFormat
+    });
+    const result = rl.doAll(longText);
+    return result;
 };
 
 export { convert };
