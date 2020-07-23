@@ -1,5 +1,7 @@
 
-import { Rulelist } from './rulelist'
+// ルール管理クラスのインポート
+import { Rulelist } from './Rulelist'
+
 /**
  * h1,h2,h3に該当する`#`を削除し、それに見合うTabを補正する
  * @param longText textarea内の文字列
@@ -133,7 +135,11 @@ const nConcat = (lines: string[]) => {
  * @returns 置換後のテキスト
  */
 const convert = (longText: string) => {
+
+    // ルールリストの作成
     const rl = new Rulelist;
+
+    // 各種ルールの適用
     rl.setRule({
         primary: 5,
         func: space2Tab
@@ -150,6 +156,8 @@ const convert = (longText: string) => {
         primary: 20,
         func: sharpFormat
     });
+
+    // ルールに基づき実行
     const result = rl.doAll(longText);
     return result;
 };
