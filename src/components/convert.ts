@@ -3,6 +3,73 @@
 import { Rulelist } from './Rulelist'
 
 /**
+ * リスト番号をフォーマット化する
+ * @param longtext textarea内の文字列
+ */
+const listNumFormat = (longText: string) => {
+    const oldLines = nSplit(longText);
+    let count = new Array<number>(1).fill(0);
+    // その行にリスト番号がある:カウントに基づき置換
+    // その行にリスト番号はない:何もしない
+    // その行の文字列は0:カウントをリセット
+    // タブが上がる、または改行があればリストをリセット
+    // タブがいくつあるか→その数分拡張
+    // ネストの深さの差は左側の空白数に依存
+    const newLines = oldLines.map(line => {
+        let l = "";
+
+        // リスト番号にマッチする正規表現オブジェクト
+        const listNumMatch = new RegExp(/\d\./);
+
+        // len : 有効な文字数
+        const len = line.trimStart().length;
+
+        // nest : ネストの深さ
+        const nest = line.length - len;
+        // 深さに対応するcountがあるか確認
+        if (count.length <= nest) {
+            // 無ければネスト差分の要素を追加(0)
+            const luck = nest - count.length +1;
+            const addArr = new Array<number>(luck).fill(0);
+            // 深さに対応した新しいカウント配列を用意
+            count = count.concat(addArr);
+        }
+        //---------------------------------------------
+        if (listNumMatch.test(line)) {
+            // その行にリスト番号がある場合
+            // 対応するカウント+1
+            count[nest] += 1;
+
+            // それより深いネストは初期化
+            count = count.fill(0, nest+1);
+
+            // 表示するリスト番号文字列
+            const c = count[nest].toString();
+
+            // リスト番号を置換し新たな行へ
+            l = line.replace(listNumMatch, c + ".");
+        } else if (len > 0) {
+            // リスト番号はないが、
+            // 空文字ではない場合(有効文字数が0以上)
+            // 何も置換しない、カウントも保持
+            // ただし、このケースだと、改行しなければ、同じネストはずっと連番となる
+            l = line;
+        } else {
+            // 空文字の場合(おそらく改行)
+            // 何も置換しない
+            // この行のネスト「以上」のネストについて、カウントを初期化する
+            // リスト番号ありとは条件が異なる
+            count = count.fill(0, nest);
+            l = line;
+        }
+        return l;
+    });
+    const newLongText = nConcat(newLines);
+    return newLongText;
+}
+
+
+/**
  * h1,h2,h3に該当する`#`を削除し、それに見合うTabを補正する
  * @param longText textarea内の文字列
  * @return 新しいテキスト
@@ -156,6 +223,10 @@ const convert = (longText: string) => {
         primary: 20,
         func: sharpFormat
     });
+    rl.setRule({
+        primary: 25,
+        func:listNumFormat
+    })
 
     // ルールに基づき実行
     const result = rl.doAll(longText);
