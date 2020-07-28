@@ -233,4 +233,15 @@ const convert = (longText: string) => {
     return result;
 };
 
-export { convert };
+export {
+    convert,
+    space2Tab,
+    hyphen2Circle,
+    tag2maru,
+    sharpFormat,
+    listNumFormat,
+    spaceSplit,
+    tConcat,
+    nSplit,
+    nConcat
+};
