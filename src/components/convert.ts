@@ -82,6 +82,9 @@ const sharpFormat = (longText: string) => {
     // もし#がある→該当行とそれ以降はh1グループ(見出しtab0+本文tab1)
     // #が無い→前行の状態を継続
     let headerNumber = 0;
+
+    // 新たに追加、h1は必ず番号付きにする
+    let h1count = 0;
     const newlines = oldlines.map(line => {
         let l :string;
         if (line.indexOf("\#\#\# ") >= 0) {
@@ -91,11 +94,15 @@ const sharpFormat = (longText: string) => {
         } else if (line.indexOf("\#\#") >= 0) {
             // h2グループ
             headerNumber = 1;
-            l = line.replace("## ", "\n\t");
+            l = line.replace("## ", "\n\t◇");
         } else if (line.indexOf("\#") >= 0) {
             // h1グループ
             headerNumber = 0;
-            l = line.replace("# ", "\n");
+
+            // h1の番号を+1
+            h1count += 1;
+            // h1フォーマットに変換
+            l = line.replace("# ", h1count + "）");
         } else {
             // 前行の状態を継続
             // headerNumberは変更しない
@@ -116,11 +123,37 @@ const sharpFormat = (longText: string) => {
 const tag2maru = (longText: string) => {
     const oldlines = nSplit(longText);
     const newlines = oldlines.map(line => {
-        const replaced = line.replace(new RegExp(/\[(.*)\]/), "●$1●\n");
-        return replaced;
+        // この時点で# [TAG]TEXTまたは# TEXT
+        const reg = new RegExp(/\[(.*)\]/);
+        const tagText = pipetteTag(line);
+        if (tagText!==null) {
+            line = `●${tagText}●\n` + line.replace(reg, "");
+        }
+        return line;
     });
     const newLongText = nConcat(newlines);
     return newLongText
+}
+
+/**
+ * ヘッダーからTAGを抽出する。無ければnullを返す
+ * @param h1 headerText
+ */
+const pipetteTag = (headerText: string) => {
+    // TAG前後の[]位置を算出
+    const startCount = headerText.indexOf("[");
+    const endCount = headerText.indexOf("]", startCount);
+
+    if (startCount > 0 && endCount > 0 && startCount < endCount) {
+        // []位置が算出される場合
+        // TAGの内容を抽出する
+        const tag = headerText.slice(startCount + 1, endCount)
+        return tag;
+    } else {
+        // []位置がマイナス(=そもそも無い)か、endのほうが小さければ無効
+        // TAG置換を行わない
+        return null;
+    }
 }
 
 /**
@@ -243,5 +276,6 @@ export {
     spaceSplit,
     tConcat,
     nSplit,
-    nConcat
+    nConcat,
+    pipetteTag
 };
