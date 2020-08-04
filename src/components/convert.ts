@@ -164,7 +164,7 @@ const pipetteTag = (headerText: string) => {
 const hyphen2Circle = (longText: string) => {
     const oldlines = nSplit(longText);
     const newlines = oldlines.map(line => {
-        return line.replace("- ", "・\t");
+        return line.replace("- ", "・");
     });
     const newLongText = nConcat(newlines);
     return newLongText;
