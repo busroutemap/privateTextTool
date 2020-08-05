@@ -167,14 +167,41 @@ const pipetteTag = (headerText: string) => {
 }
 
 /**
- * @summary "- " を "・"に置換する
+ * @summary "- " を "・"に置換する。
+ * また、・でリストを並べた次行が「説明行」の場合、"→"に置換する。
+ * (仕様)「説明行」は、下記2つが該当
+ * (1)前行に"・"があり、ネスト差が前行比+1の場合
+ * (2)前行に"→"があり、ネスト差が同じ場合
  * @param longText textarea内の文字列
  * @returns 新しいテキスト
  */
 const hyphen2Circle = (longText: string) => {
     const oldlines = nSplit(longText);
+
+    // 1行前のTAB数
+    let lastNest = 0;
     const newlines = oldlines.map(line => {
-        return line.replace("- ", "・");
+
+        // この行のTAB数
+        let currentNest = getNest(line);
+
+        // 行置換後
+        let newLine = line.replace("- ", "・");
+
+        // TAB差
+        const fall = currentNest - lastNest
+
+        // 2つの状況をどちらか満たす場合、"→"に置換
+        // 置換後に・があり、TAB差が1つしかない
+        if (newLine.indexOf("・") > 0 && fall === 1) {
+            newLine = line.replace("・", "→");
+        } else if (newLine.indexOf("→") > 0 && fall === 0) {
+            // ・の代わりに→があり、ネスト差が無い
+            newLine = line.replace("・", "→");
+        }
+        // 最後にこの行のTAB数を代入
+        lastNest = currentNest;
+        return newLine;
     });
     const newLongText = nConcat(newlines);
     return newLongText;
