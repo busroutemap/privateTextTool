@@ -14,18 +14,15 @@ const listNumFormat = (longText: string) => {
     // その行の文字列は0:カウントをリセット
     // タブが上がる、または改行があればリストをリセット
     // タブがいくつあるか→その数分拡張
-    // ネストの深さの差は左側の空白数に依存
     const newLines = oldLines.map(line => {
         let l = "";
 
         // リスト番号にマッチする正規表現オブジェクト
         const listNumMatch = new RegExp(/\d\./);
 
-        // len : 有効な文字数
-        const len = line.trimStart().length;
+        // 左側のTAB数を取得
+        const nest = getNest(line);
 
-        // nest : ネストの深さ
-        const nest = line.length - len;
         // 深さに対応するcountがあるか確認
         if (count.length <= nest) {
             // 無ければネスト差分の要素を追加(0)
@@ -48,7 +45,7 @@ const listNumFormat = (longText: string) => {
 
             // リスト番号を置換し新たな行へ
             l = line.replace(listNumMatch, c + ".");
-        } else if (len > 0) {
+        } else if (line.trimStart().length > 0) {
             // リスト番号はないが、
             // 空文字ではない場合(有効文字数が0以上)
             // 何も置換しない、カウントも保持
@@ -68,6 +65,19 @@ const listNumFormat = (longText: string) => {
     return newLongText;
 }
 
+/**
+ * TABによるネストの深さを返す
+ * @param line 行のテキスト
+ */
+const getNest = (line: string) => {
+    // len : 行内の有効な文字数
+    const len = line.trimStart().length;
+
+    // nest : ネストの深さ
+    const nest = line.length - len;
+
+    return nest;
+}
 
 /**
  * h1,h2,h3に該当する`#`を削除し、それに見合うTabを補正する
@@ -157,7 +167,7 @@ const pipetteTag = (headerText: string) => {
 }
 
 /**
- * @summary "- " を "・\t"に置換する
+ * @summary "- " を "・"に置換する
  * @param longText textarea内の文字列
  * @returns 新しいテキスト
  */
