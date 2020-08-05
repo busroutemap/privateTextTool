@@ -51,7 +51,7 @@ class Rulelist{
         this.rules.forEach(rule => {
             longText = rule.func(longText)
         });
-        console.log(longText);
+        // console.log(longText);
         return longText;
     }
     /**

@@ -180,6 +180,10 @@ const hyphen2Circle = (longText: string) => {
 
     // 1行前のTAB数
     let lastNest = 0;
+
+    // 1行前のテキスト
+    let lastLine = "";
+
     const newlines = oldlines.map(line => {
 
         // この行のTAB数
@@ -189,18 +193,19 @@ const hyphen2Circle = (longText: string) => {
         let newLine = line.replace("- ", "・");
 
         // TAB差
-        const fall = currentNest - lastNest
-
+        const fall = currentNest - lastNest;
+        console.log(fall +":"+ newLine)
         // 2つの状況をどちらか満たす場合、"→"に置換
         // 置換後に・があり、TAB差が1つしかない
         if (newLine.indexOf("・") > 0 && fall === 1) {
-            newLine = line.replace("・", "→");
-        } else if (newLine.indexOf("→") > 0 && fall === 0) {
-            // ・の代わりに→があり、ネスト差が無い
-            newLine = line.replace("・", "→");
+            newLine = newLine.replace("・", "→");
+        } else if (lastLine.indexOf("→") > 0 && fall === 0) {
+            // 前行に・の代わりに→があり、ネスト差が無い
+            newLine = newLine.replace("・", "→");
         }
-        // 最後にこの行のTAB数を代入
+        // 最後にこの行のTAB数と行内容を代入
         lastNest = currentNest;
+        lastLine = newLine
         return newLine;
     });
     const newLongText = nConcat(newlines);
@@ -282,7 +287,7 @@ const convert = (longText: string) => {
         func: space2Tab
     });
     rl.setRule({
-        primary: 10,
+        primary: 8,
         func: hyphen2Circle
     });
     rl.setRule({
