@@ -99,15 +99,15 @@ const sharpFormat = (longText: string) => {
         let l :string;
         if (line.indexOf("\#\#\# ") >= 0) {
             // h3グループ
-            headerNumber = 2;
+            headerNumber = 3;
             l = line.replace("### ", "\n\t\t");
         } else if (line.indexOf("\#\#") >= 0) {
             // h2グループ
-            headerNumber = 1;
+            headerNumber = 2;
             l = line.replace("## ", "\n\t◇");
         } else if (line.indexOf("\#") >= 0) {
             // h1グループ
-            headerNumber = 0;
+            headerNumber = 1;
 
             // h1の番号を+1
             h1count += 1;
