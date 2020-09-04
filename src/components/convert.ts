@@ -100,11 +100,11 @@ const sharpFormat = (longText: string) => {
         if (line.indexOf("\#\#\# ") >= 0) {
             // h3グループ
             headerNumber = 3;
-            l = line.replace("### ", "\n\t\t");
+            l = line.replace("### ", "\t\t");
         } else if (line.indexOf("\#\#") >= 0) {
             // h2グループ
             headerNumber = 2;
-            l = line.replace("## ", "\n\t◇");
+            l = line.replace("## ", "\t◇");
         } else if (line.indexOf("\#") >= 0) {
             // h1グループ
             headerNumber = 1;
